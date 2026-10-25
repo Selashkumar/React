@@ -1,122 +1,568 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
+// header
+// -logo
+// -search(location, dish, restaurant)
+// -button(sign in and login or profile)
+// body 
+// -filter
+// -food items filter
+// -cards
+// footer
+// -contact, about, social media links
+const foodItems = [
+  {
+    id: 1,
+    name: 'Pizza',
+    image: 'https://images.unsplash.com/photo-1769458313988-2cd932ab2777?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D'
+  },
+  {
+    id: 2,
+    name: 'Burger',
+    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D'
+  },
+  {
+    id: 3,
+    name: 'Sushi',
+    image: 'https://images.unsplash.com/photo-1761314025602-d9a27593476f?q=80&w=388&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D'
+  },
+  {
+    id: 4,
+    name: 'Pasta',
+    image: 'https://plus.unsplash.com/premium_photo-1664472619078-9db415ebef44?q=80&w=776&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D'
+  },
+  {
+    id: 5,
+    name: 'Salad',
+    image: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?q=80&w=778&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D'
+  },
+  {
+    id: 6,
+    name: 'Taco',
+    image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?q=80&w=480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D'
+  },
+  {
+    id: 7,
+    name: 'Sushi',
+    image: 'https://images.unsplash.com/photo-1761314025602-d9a27593476f?q=80&w=388&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D'
+  }
+] 
 
-function App() {
-  const [count, setCount] = useState(0)
+const dishCards = [
+  {
+    id: 1,
+    name: 'Chicken Biryani',
+    parentFoodItemId: 1,
+    image: 'https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?q=80&w=888&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    description: 'Aromatic basmati rice cooked with tender chicken and spices.',
+    rating: 4.5,
+    price: 12.99,
+    offers: ['10% off on first order', 'Free delivery above $20'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: true,
+    cuisine: 'Indian',
+    restaurant: 'Spice House',
+    deliveryTime: 30,
+    calories: 600,
+    ingredients: ['Basmati rice', 'Chicken', 'Onions', 'Spices'],
+    allergens: ['Dairy'],
+    reviews: []
+  },
+  {
+    id: 2,
+    name: 'Veg Fried Rice',
+    parentFoodItemId: 2,
+    image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600',
+    description: 'Fried rice tossed with fresh vegetables and soy sauce.',
+    rating: 4.3,
+    price: 8.99,
+    offers: ['5% off today'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'Chinese',
+    restaurant: 'Wok Express',
+    deliveryTime: 20,
+    calories: 400,
+    ingredients: ['Rice', 'Carrots', 'Beans', 'Soy sauce'],
+    allergens: ['Soy'],
+    reviews: []
+  },
+  {
+    id: 3,
+    name: 'Margherita Pizza',
+    parentFoodItemId: 3,
+    image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600',
+    description: 'Classic pizza topped with tomato sauce, mozzarella and basil.',
+    rating: 4.6,
+    price: 10.99,
+    offers: ['Free extra cheese'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'Italian',
+    restaurant: 'Pizza Corner',
+    deliveryTime: 25,
+    calories: 550,
+    ingredients: ['Pizza dough', 'Tomato', 'Mozzarella', 'Basil'],
+    allergens: ['Dairy', 'Gluten'],
+    reviews: []
+  },
+  {
+    id: 4,
+    name: 'Chicken Burger',
+    parentFoodItemId: 4,
+    image: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600',
+    description: 'Crispy chicken fillet served in a toasted bun with fresh lettuce.',
+    rating: 4.4,
+    price: 7.99,
+    offers: ['Combo meal available'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: true,
+    cuisine: 'American',
+    restaurant: 'Burger Hub',
+    deliveryTime: 20,
+    calories: 520,
+    ingredients: ['Chicken', 'Bun', 'Lettuce', 'Mayonnaise'],
+    allergens: ['Gluten', 'Egg'],
+    reviews: []
+  },
+  {
+    id: 5,
+    name: 'Paneer Butter Masala',
+    parentFoodItemId: 5,
+    image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600',
+    description: 'Soft paneer cubes cooked in a creamy tomato gravy.',
+    rating: 4.7,
+    price: 9.49,
+    offers: ['Free naan with orders above $15'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: true,
+    cuisine: 'Indian',
+    restaurant: 'Spice House',
+    deliveryTime: 30,
+    calories: 480,
+    ingredients: ['Paneer', 'Tomatoes', 'Cream', 'Spices'],
+    allergens: ['Dairy'],
+    reviews: []
+  },
+  {
+    id: 6,
+    name: 'Masala Dosa',
+    parentFoodItemId: 6,
+    image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=600',
+    description: 'Crispy fermented rice crepe filled with spiced potato masala.',
+    rating: 4.6,
+    price: 5.99,
+    offers: ['10% off breakfast'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: true,
+    cuisine: 'South Indian',
+    restaurant: 'Madras Cafe',
+    deliveryTime: 20,
+    calories: 350,
+    ingredients: ['Rice batter', 'Potatoes', 'Onions', 'Spices'],
+    allergens: [],
+    reviews: []
+  },
+  {
+    id: 7,
+    name: 'Chicken Noodles',
+    parentFoodItemId: 7,
+    image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=600',
+    description: 'Stir-fried noodles with chicken and crunchy vegetables.',
+    rating: 4.2,
+    price: 8.49,
+    offers: ['Free drink with meal'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: true,
+    cuisine: 'Chinese',
+    restaurant: 'Wok Express',
+    deliveryTime: 25,
+    calories: 450,
+    ingredients: ['Noodles', 'Chicken', 'Carrots', 'Soy sauce'],
+    allergens: ['Gluten', 'Soy'],
+    reviews: []
+  },
+  {
+    id: 8,
+    name: 'Grilled Chicken',
+    parentFoodItemId: 8,
+    image: 'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600',
+    description: 'Juicy grilled chicken seasoned with herbs and pepper.',
+    rating: 4.5,
+    price: 11.99,
+    offers: ['15% off family meals'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: false,
+    cuisine: 'Continental',
+    restaurant: 'Grill Nation',
+    deliveryTime: 35,
+    calories: 420,
+    ingredients: ['Chicken', 'Garlic', 'Pepper', 'Herbs'],
+    allergens: [],
+    reviews: []
+  },
+  {
+    id: 9,
+    name: 'Veg Burger',
+    parentFoodItemId: 9,
+    image: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?w=600',
+    description: 'Vegetable patty burger with lettuce, tomato and creamy sauce.',
+    rating: 4.1,
+    price: 6.49,
+    offers: ['Buy one, get fries at half price'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'American',
+    restaurant: 'Burger Hub',
+    deliveryTime: 20,
+    calories: 390,
+    ingredients: ['Vegetable patty', 'Bun', 'Lettuce', 'Tomato'],
+    allergens: ['Gluten', 'Egg'],
+    reviews: []
+  },
+  {
+    id: 10,
+    name: 'Fish and Chips',
+    parentFoodItemId: 10,
+    image: 'https://images.unsplash.com/photo-1579208575657-c595a05383b7?w=600',
+    description: 'Crispy battered fish served with golden fries.',
+    rating: 4.3,
+    price: 10.49,
+    offers: ['Free dip with every order'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: false,
+    cuisine: 'British',
+    restaurant: 'Ocean Bites',
+    deliveryTime: 30,
+    calories: 650,
+    ingredients: ['Fish', 'Potatoes', 'Flour', 'Oil'],
+    allergens: ['Fish', 'Gluten'],
+    reviews: []
+  },
+  {
+    id: 11,
+    name: 'Chicken Shawarma',
+    parentFoodItemId: 11,
+    image: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=600',
+    description: 'Spiced chicken wrapped in flatbread with fresh vegetables.',
+    rating: 4.5,
+    price: 7.49,
+    offers: ['Free sauce upgrade'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: true,
+    cuisine: 'Middle Eastern',
+    restaurant: 'Arabian Grill',
+    deliveryTime: 20,
+    calories: 430,
+    ingredients: ['Chicken', 'Flatbread', 'Lettuce', 'Garlic sauce'],
+    allergens: ['Gluten', 'Dairy'],
+    reviews: []
+  },
+  {
+    id: 12,
+    name: 'Pasta Alfredo',
+    parentFoodItemId: 12,
+    image: 'https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=600',
+    description: 'Creamy Alfredo pasta topped with herbs and parmesan.',
+    rating: 4.4,
+    price: 9.99,
+    offers: ['Free garlic bread'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'Italian',
+    restaurant: 'Pasta Palace',
+    deliveryTime: 25,
+    calories: 580,
+    ingredients: ['Pasta', 'Cream', 'Parmesan', 'Garlic'],
+    allergens: ['Dairy', 'Gluten'],
+    reviews: []
+  },
+  {
+    id: 13,
+    name: 'Chicken Tikka',
+    parentFoodItemId: 13,
+    image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=600',
+    description: 'Chicken pieces marinated in yogurt and roasted with spices.',
+    rating: 4.6,
+    price: 10.99,
+    offers: ['10% off party platters'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: true,
+    cuisine: 'Indian',
+    restaurant: 'Tandoori Town',
+    deliveryTime: 30,
+    calories: 390,
+    ingredients: ['Chicken', 'Yogurt', 'Ginger', 'Spices'],
+    allergens: ['Dairy'],
+    reviews: []
+  },
+  {
+    id: 14,
+    name: 'Idli Sambar',
+    parentFoodItemId: 14,
+    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600',
+    description: 'Soft steamed rice cakes served with lentil sambar.',
+    rating: 4.4,
+    price: 4.49,
+    offers: ['Breakfast special'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'South Indian',
+    restaurant: 'Madras Cafe',
+    deliveryTime: 15,
+    calories: 280,
+    ingredients: ['Rice', 'Urad dal', 'Lentils', 'Vegetables'],
+    allergens: [],
+    reviews: []
+  },
+  {
+    id: 15,
+    name: 'Chocolate Brownie',
+    parentFoodItemId: 15,
+    image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600',
+    description: 'Rich chocolate brownie with a soft, fudgy centre.',
+    rating: 4.8,
+    price: 4.99,
+    offers: ['Buy two, save 10%'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'Dessert',
+    restaurant: 'Sweet Treats',
+    deliveryTime: 15,
+    calories: 320,
+    ingredients: ['Chocolate', 'Flour', 'Butter', 'Sugar'],
+    allergens: ['Dairy', 'Gluten', 'Egg'],
+    reviews: []
+  },
+  {
+    id: 16,
+    name: 'Caesar Salad',
+    parentFoodItemId: 16,
+    image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=600',
+    description: 'Fresh lettuce tossed with Caesar dressing and crunchy croutons.',
+    rating: 4.2,
+    price: 7.99,
+    offers: ['Healthy meal deal'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'Continental',
+    restaurant: 'Green Bowl',
+    deliveryTime: 15,
+    calories: 290,
+    ingredients: ['Lettuce', 'Croutons', 'Parmesan', 'Dressing'],
+    allergens: ['Dairy', 'Gluten', 'Egg'],
+    reviews: []
+  },
+  {
+    id: 17,
+    name: 'Mutton Biryani',
+    parentFoodItemId: 17,
+    image: 'https://plus.unsplash.com/premium_photo-1694141253763-209b4c8f8ace?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D',
+    description: 'Fragrant basmati rice layered with tender spiced mutton.',
+    rating: 4.7,
+    price: 14.99,
+    offers: ['Free raita with biryani'],
+    isAvailable: true,
+    isVegetarian: false,
+    isSpicy: true,
+    cuisine: 'Indian',
+    restaurant: 'Royal Biryani',
+    deliveryTime: 40,
+    calories: 720,
+    ingredients: ['Basmati rice', 'Mutton', 'Onions', 'Spices'],
+    allergens: ['Dairy'],
+    reviews: []
+  },
+  {
+    id: 18,
+    name: 'Pancakes',
+    parentFoodItemId: 18,
+    image: 'https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=600',
+    description: 'Fluffy pancakes served with maple syrup and fresh berries.',
+    rating: 4.5,
+    price: 6.99,
+    offers: ['Breakfast combo available'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'American',
+    restaurant: 'Morning Bites',
+    deliveryTime: 20,
+    calories: 410,
+    ingredients: ['Flour', 'Milk', 'Eggs', 'Maple syrup'],
+    allergens: ['Dairy', 'Gluten', 'Egg'],
+    reviews: []
+  },
+  {
+    id: 19,
+    name: 'Falafel Wrap',
+    parentFoodItemId: 19,
+    image: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=600',
+    description: 'Crispy chickpea falafel wrapped with vegetables and tahini.',
+    rating: 4.3,
+    price: 7.49,
+    offers: ['Free hummus dip'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'Middle Eastern',
+    restaurant: 'Arabian Grill',
+    deliveryTime: 20,
+    calories: 380,
+    ingredients: ['Chickpeas', 'Flatbread', 'Tahini', 'Vegetables'],
+    allergens: ['Gluten', 'Sesame'],
+    reviews: []
+  },
+  {
+    id: 20,
+    name: 'Vanilla Ice Cream',
+    parentFoodItemId: 20,
+    image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600',
+    description: 'Creamy vanilla ice cream made for a refreshing dessert.',
+    rating: 4.6,
+    price: 3.99,
+    offers: ['Add a topping for $0.50'],
+    isAvailable: true,
+    isVegetarian: true,
+    isSpicy: false,
+    cuisine: 'Dessert',
+    restaurant: 'Sweet Treats',
+    deliveryTime: 10,
+    calories: 220,
+    ingredients: ['Milk', 'Cream', 'Sugar', 'Vanilla'],
+    allergens: ['Dairy'],
+    reviews: []
+  }
+];
 
+const SearchFilter = () => {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <div className="App-filter">
+      {/* filter */}
+      <select className="App-filter-select">
+        <option value="location">Location</option>
+        <option value="dish">Dish</option>
+        <option value="restaurant">Restaurant</option>
+      </select>
+    </div>
   )
+}
+const FoodItemsFilter = () => {
+  return (
+    <div className="App-food-items-filter">
+      {/* food items filter */}
+      {foodItems.map((item) => (
+        <div key={item.id} className="App-food-item">
+          <img src={item.image} alt={item.name} className="App-food-item-image" />
+          <div className="App-food-item-details">
+            <h3 className="App-food-item-name">{item.name}</h3>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+const Cards = () => {
+  return (
+    <div className="App-cards">
+      {dishCards.map((dish) => (
+        <div className="dish-card" key={dish.id}>
+          <img src={dish.image} alt={dish.name} className="dish-card-image" />
+          <div className="dish-card-details">
+            <div>
+              <h3>{dish.name}</h3>
+              <p>{dish.description}</p>
+            </div>
+            <div className="dish-card-info">
+              <p>{dish.rating} ★</p>
+              <p>${dish.price.toFixed(2)}</p>
+              <p>{dish.deliveryTime} min</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+const Header = () => {
+  return (
+    <div className="App-header">
+      <div className="App-header-left">
+        {/* logo */}
+        <img src='https://s3.amazonaws.com/cdn.designcrowd.com/blog/39-Food-Delivery-Logos-That-Will-Leave-You-Hungry-For-More/food-express-by-gigih-rudya-designcrowd.png' className="App-logo" alt="logo" />
+      </div>
+      <div className="App-header-right">
+        {/* search */}
+        <input type="text" placeholder="Search for location, dish or restaurant" className="App-search"/>
+        {/* button - sign in/sign up or profile */}
+        <button className="App-button">Sign In</button>
+        <button className="App-button">Sign Up</button>
+        <button className="App-button">Profile</button>
+      </div>
+    </div>
+  )
+}
+const Body = () => {
+  return (
+    <div className="App-body">
+      {/* search filter */}
+      <SearchFilter/>
+      {/* food items filter */}
+      <FoodItemsFilter/>
+      {/* cards */}
+      <Cards/>
+    </div>
+  )
+}
+const Footer = () => {
+  return (
+    <div className="App-footer">
+      {/* contact, about, social media links */}
+      <div className="App-footer-logo">
+        <img src='https://s3.amazonaws.com/cdn.designcrowd.com/blog/39-Food-Delivery-Logos-That-Will-Leave-You-Hungry-For-More/food-express-by-gigih-rudya-designcrowd.png' className="App-footer-logo-image" alt="logo" />
+      </div>
+      <div className="App-footer-links">
+        <a href="https://www.foodexpress.com/contact" className="App-footer-link">Contact</a>
+        <a href="https://www.foodexpress.com/about" className="App-footer-link">About Us</a>
+        <a href="https://www.facebook.com/foodexpress" className="App-footer-link">Facebook</a>
+        <a href="https://www.twitter.com/foodexpress" className="App-footer-link">Twitter</a>
+        <a href="https://www.instagram.com/foodexpress" className="App-footer-link">Instagram</a>
+      </div>
+      <div className="copyright">
+        <p>&copy; 2024 FoodExpress. All rights reserved.</p>
+      </div>
+    </div>
+  )
+}
+const appLayout = () => {
+  return (
+    <div className="App">
+      {/* header */}
+      <Header/>
+      {/* body */}
+      <Body/>
+      {/* footer */}
+      <Footer/>
+    </div>
+  )
+}
+function App() {
+  return appLayout()
 }
 
 export default App
